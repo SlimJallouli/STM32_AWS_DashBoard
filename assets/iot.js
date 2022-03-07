@@ -19,7 +19,7 @@ let subscribed = false;
 let env_sensor_topic  = "/"+DeviceID+"/env_sensor_data";
 let motion_sensor_topic = "/"+DeviceID+"/motion_sensor_data";
 let shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
-let presense_topic = "$aws/events/presence/#";
+let presense_topic = "$aws/events/presence/";
 
 var _clientToken = Math.random() * 1000000;
 
@@ -148,7 +148,7 @@ function unsubscribe()
         client.unsubscribe(env_sensor_topic);
 	    client.unsubscribe(motion_sensor_topic);
         client.unsubscribe(shadow_topic+"/accepted");
-        client.unsubscribe(presense_topic);
+        client.unsubscribe(presense_topic+"#");
 
 
         subscribed = false;
@@ -165,12 +165,12 @@ function subscribe()
     env_sensor_topic  = "/"+DeviceID+"/env_sensor_data";
     motion_sensor_topic = "/"+DeviceID+"/motion_sensor_data";
     shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
-    //presense_topic = "$aws/events/presence/+/"+DeviceID;
+    //presense_topic = presense_topic+"#"
 
     client.subscribe(env_sensor_topic);
 	client.subscribe(motion_sensor_topic);
     client.subscribe(shadow_topic+"/accepted");
-    client.subscribe(presense_topic);
+    client.subscribe(presense_topic+"#");
 
     subscribed = true;
 
@@ -178,7 +178,7 @@ function subscribe()
     console.log(env_sensor_topic);
     console.log(motion_sensor_topic);
     console.log(shadow_topic);
-    console.log(presense_topic);
+    console.log(presense_topic+"#");
 }
 
 function init()
@@ -207,6 +207,7 @@ function processMessage(message)
 {
     let info = JSON.parse(message.payloadString);
 	
+    console.log("Topic: " + message.destinationName);
     console.log(info);
 	
     if(message.destinationName == shadow_topic+"/accepted")
@@ -235,11 +236,11 @@ function processMessage(message)
     {
         add_motion_sensor_data(info.acceleration_mG.x, info.acceleration_mG.y,info.acceleration_mG.z);
     }
-    else //if(message.destinationName == presense_topic)
+    else if(message.destinationName.includes(presense_topic) && message.destinationName.includes(DeviceID))
     {
         try
         {
-            if(info.clientId == DeviceID+"\u0000")
+            if(info.clientId.includes(DeviceID))
             {
                 document.getElementById("idConnectionStatus").innerHTML = DeviceID+ " " + info.eventType;
                 
@@ -251,7 +252,7 @@ function processMessage(message)
                 {
                     //Do nothing
                 }
-            }               
+            }
         }
         catch
         {
