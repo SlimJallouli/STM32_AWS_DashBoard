@@ -19,6 +19,8 @@ let subscribed = false;
 let env_sensor_topic  = "/"+DeviceID+"/env_sensor_data";
 let motion_sensor_topic = "/"+DeviceID+"/motion_sensor_data";
 let shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
+let presense_topic = "$aws/events/presence/#";
+
 var _clientToken = Math.random() * 1000000;
 
 //gets MQTT client
@@ -146,6 +148,8 @@ function unsubscribe()
         client.unsubscribe(env_sensor_topic);
 	    client.unsubscribe(motion_sensor_topic);
         client.unsubscribe(shadow_topic+"/accepted");
+        client.unsubscribe(presense_topic);
+
 
         subscribed = false;
     }
@@ -161,10 +165,12 @@ function subscribe()
     env_sensor_topic  = "/"+DeviceID+"/env_sensor_data";
     motion_sensor_topic = "/"+DeviceID+"/motion_sensor_data";
     shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
+    //presense_topic = "$aws/events/presence/+/"+DeviceID;
 
     client.subscribe(env_sensor_topic);
 	client.subscribe(motion_sensor_topic);
     client.subscribe(shadow_topic+"/accepted");
+    client.subscribe(presense_topic);
 
     subscribed = true;
 
@@ -172,6 +178,7 @@ function subscribe()
     console.log(env_sensor_topic);
     console.log(motion_sensor_topic);
     console.log(shadow_topic);
+    console.log(presense_topic);
 }
 
 function init()
@@ -204,8 +211,6 @@ function processMessage(message)
 	
     if(message.destinationName == shadow_topic+"/accepted")
     {
-        console.log(info);
-
         try
         {
            if(info.state.reported.powerOn == '1')
@@ -229,6 +234,29 @@ function processMessage(message)
     else if(message.destinationName == motion_sensor_topic)
     {
         add_motion_sensor_data(info.acceleration_mG.x, info.acceleration_mG.y,info.acceleration_mG.z);
+    }
+    else //if(message.destinationName == presense_topic)
+    {
+        try
+        {
+            if(info.clientId == DeviceID+"\u0000")
+            {
+                document.getElementById("idConnectionStatus").innerHTML = DeviceID+ " " + info.eventType;
+                
+                if(info.state.eventType == "disconnected")
+                {
+                  //Do nothing
+                }
+                else if(info.state.eventType == "connected")
+                {
+                    //Do nothing
+                }
+            }               
+        }
+        catch
+        {
+            //Do nothing
+        }
     }
 }
 
