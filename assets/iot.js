@@ -9,9 +9,9 @@ const REGION = "us-east-2";
 // example: xzy-ats.iot.your-region.amazonaws.com
 const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-east-2.amazonaws.com";
 // your AWS access key ID
-let KEY_ID = "AKIAQC3VOUARTX2UIZGG";
+const KEY_ID = "";
 // your AWS secret access key
-let SECRET_KEY = "btZmOdlDFIh/DjfD+AyxYKbuctAR3t8qXI9puV4T";
+const SECRET_KEY = "";
 	
 let client = {};
 
