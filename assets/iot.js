@@ -5,13 +5,13 @@
 // The device ID
 let DeviceID = '';
 // example: us-east-1
-const REGION = "us-east-2";
+const REGION = "us-west-2";
 // example: xzy-ats.iot.your-region.amazonaws.com
-const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-east-2.amazonaws.com";
+const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-west-2.amazonaws.com";
 // your AWS access key ID
-const KEY_ID = "";
+const KEY_ID = "AKIAQC3VOUARQERJ5LVQ";
 // your AWS secret access key
-const SECRET_KEY = "";
+const SECRET_KEY = "c9YnCtGgqVFrdoM/uJmbi63D9FBsLV7U7jlynaxk";
 	
 let client = {};
 
@@ -162,8 +162,8 @@ function subscribe()
 
     DeviceID = document.getElementById("idDeviceID").value ;
 
-    env_sensor_topic  = "/"+DeviceID+"/env_sensor_data";
-    motion_sensor_topic = "/"+DeviceID+"/motion_sensor_data";
+    env_sensor_topic  = DeviceID+"/env_sensor_data";
+    motion_sensor_topic = DeviceID+"/motion_sensor_data";
     shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
     //presense_topic = presense_topic+"#"
 
