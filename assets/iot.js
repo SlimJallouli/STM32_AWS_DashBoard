@@ -7,11 +7,11 @@ let DeviceID = '';
 // example: us-east-1
 const REGION = "us-west-2";
 // example: xzy-ats.iot.your-region.amazonaws.com
-const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-west-2.amazonaws.com";
+const IOT_ENDPOINT = "";
 // your AWS access key ID
-const KEY_ID = "AKIAQC3VOUARQERJ5LVQ";
+const KEY_ID = "";
 // your AWS secret access key
-const SECRET_KEY = "c9YnCtGgqVFrdoM/uJmbi63D9FBsLV7U7jlynaxk";
+const SECRET_KEY = "";
 	
 let client = {};
 
@@ -209,6 +209,15 @@ function processMessage(message)
 	
     console.log("Topic: " + message.destinationName);
     console.log(info);
+
+    if((message.destinationName == motion_sensor_topic) || (message.destinationName == env_sensor_topic))
+    {
+        if(document.getElementById("idConnectionStatus").innerHTML != 'Device connected')
+        {
+            document.getElementById("idConnectionStatus").innerHTML = 'Device connected';
+        }
+    }
+    
 	
     if(message.destinationName == shadow_topic+"/accepted")
     {
@@ -246,10 +255,12 @@ function processMessage(message)
                 
                 if(info.state.eventType == "disconnected")
                 {
+                    document.getElementById("idConnectionStatus").innerHTML = 'Device disconnected';
                   //Do nothing
                 }
                 else if(info.state.eventType == "connected")
                 {
+                    document.getElementById("idConnectionStatus").innerHTML = 'Device connected';
                     //Do nothing
                 }
             }
