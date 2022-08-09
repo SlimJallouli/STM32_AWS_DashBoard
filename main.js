@@ -141,10 +141,13 @@ function add_motion_sensor_data(x, y, z)
     motionChart.update();
 }
 
-function add_random_data() {
-    add_env_sensor_data(
-        Math.random() * 100,
-        Math.random() * 100
-    );
+function toggleLED() {
+    let ledCheckbox = document.getElementById("ledCheckbox");
+
+    if (ledCheckbox.checked) {
+        SendMessage("1")
+    } else {
+        SendMessage("2")
+    }
 }
 

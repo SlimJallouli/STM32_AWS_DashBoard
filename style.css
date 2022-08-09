@@ -68,8 +68,12 @@
     color: white; 
 }
 
-#led {
+#ledImage {
     width: 50px;
+}
+
+.led {
+    display: flex;
 }
 
 #button-1 .knobs:before{content: '';position: absolute;top: 4px;left: 4px;width: 20px;height: 10px;color: #fff;font-size: 10px;font-weight: bold;text-align: center;line-height: 1;padding: 9px 4px;background-color: #fff;border-radius: 50%;transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.35), 0 10px 10px -5px rgba(0, 0, 0, 0.20);}

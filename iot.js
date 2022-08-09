@@ -9,9 +9,9 @@ const REGION = "us-west-2";
 // example: xzy-ats.iot.your-region.amazonaws.com
 const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-west-2.amazonaws.com";
 // your AWS access key ID
-const KEY_ID = "";
+const KEY_ID = "AKIAQC3VOUAR3CXSI7Y3";
 // your AWS secret access key
-const SECRET_KEY = "";
+const SECRET_KEY = "4iENJIKJjTVyqOOjJ8QYHTw9PKOjamiYvnY0s7Xg";
 	
 let client = {};
 
@@ -235,11 +235,13 @@ function processMessage(message)
         {
            if(info.state.reported.powerOn == '1')
             {
-                document.getElementById("ImageBulb").src="./assets/pic_bulbon.gif";
+                document.getElementById("ledImage").src="/assets/led_on.svg";
+                document.getElementById("ledCheckbox").checked = true;
             }
             else
             {
-                document.getElementById("ImageBulb").src="./assets/pic_bulboff.gif";
+                document.getElementById("ledImage").src="/assets/led_off.svg";
+                document.getElementById("ledCheckbox").checked = false;
             }
         }
         catch

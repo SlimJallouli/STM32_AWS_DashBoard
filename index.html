@@ -51,13 +51,13 @@
             <tbody>
               <tr>
                 <th scope="row">LED</th>
-                <td><div class="button r center" id="button-1">
-                    <input type="checkbox" class="checkbox">
+                <td class="led"><div class="button r center" id="button-1">
+                    <input type="checkbox" class="checkbox" id="ledCheckbox" onclick=toggleLED()>
                     <div class="knobs"></div>
                     <div class="layer"></div>
                 </div>
                 <div >
-                    <img id="led" src="/assets/led_on.svg">
+                    <img id="ledImage" src="/assets/led_off.svg">
                 </div></td>
               </tr>
             </tbody>
