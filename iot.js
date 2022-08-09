@@ -7,7 +7,7 @@ let DeviceID = '';
 // example: us-east-1
 const REGION = "us-west-2";
 // example: xzy-ats.iot.your-region.amazonaws.com
-const IOT_ENDPOINT = "";
+const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-west-2.amazonaws.com";
 // your AWS access key ID
 const KEY_ID = "";
 // your AWS secret access key
@@ -102,7 +102,7 @@ p4.getSignatureKey = function(key, dateStamp, regionName, serviceName)
 function connected()
 {
   console.log("connected to AWS");
-  document.getElementById("idTitle").innerHTML = 'Connected to AWS';
+//   document.getElementById("idTitle").innerHTML = 'Connected to AWS';
 
   HideShowElement("idButtonSubscribe", true);
 }
@@ -198,8 +198,21 @@ function init()
     client.onConnectionLost = function(e)
 	{
         console.log(e);
-        document.getElementById("idTitle").innerHTML = 'Disconnected from AWS';
+        // document.getElementById("idTitle").innerHTML = 'Disconnected from AWS';
         HideShowElement("idButtonSubscribe", false);
+    }
+}
+
+function updateConnectionStatus(isConnected) {
+    let status = document.getElementById("idConnectionStatus");
+    if (isConnected) {
+        status.innerHTML = 'Device connected';
+        status.classList.remove('status-disconnected')
+        status.classList.add('status-connected')
+    } else {
+        status.innerHTML = 'Device disconnected';
+        status.classList.remove('status-connected')
+        status.classList.add('status-disconnected')
     }
 }
 
@@ -212,10 +225,7 @@ function processMessage(message)
 
     if((message.destinationName == motion_sensor_topic) || (message.destinationName == env_sensor_topic))
     {
-        if(document.getElementById("idConnectionStatus").innerHTML != 'Device connected')
-        {
-            document.getElementById("idConnectionStatus").innerHTML = 'Device connected';
-        }
+        updateConnectionStatus(true);
     }
     
 	
@@ -252,17 +262,7 @@ function processMessage(message)
             if(info.clientId.includes(DeviceID))
             {
                 document.getElementById("idConnectionStatus").innerHTML = DeviceID+ " " + info.eventType;
-                
-                if(info.state.eventType == "disconnected")
-                {
-                    document.getElementById("idConnectionStatus").innerHTML = 'Device disconnected';
-                  //Do nothing
-                }
-                else if(info.state.eventType == "connected")
-                {
-                    document.getElementById("idConnectionStatus").innerHTML = 'Device connected';
-                    //Do nothing
-                }
+                updateConnectionStatus(info.state.eventType == "connected")
             }
         }
         catch

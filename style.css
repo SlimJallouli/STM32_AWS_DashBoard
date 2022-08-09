@@ -1,0 +1,84 @@
+.bg-top {
+    background-color: #03234b;
+}
+
+.navbar-brand {
+    color: white;
+}
+
+.navbar-toggler-icon {
+    color: white;
+}
+
+.btn-outline-success {
+    color: white;
+    border-color: white;
+}
+
+.btn-outline-success:hover {
+    color: white;
+    border-color: #3cb4e6;
+    background-color: #3cb4e6;
+}
+
+.status {
+    display: block;
+    padding-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: red;
+    width: 40em;
+}
+
+.status-connected {
+    color: green;
+}
+
+.status-disconnected {
+    color: red;
+}
+
+.charts {
+    display: flex;
+    flex-direction: row;
+}
+
+.chart {
+    width: 50%;
+    padding: 5%;
+}
+
+.table {
+    width: 50%;
+    margin: auto;
+}
+
+.thead-dark {
+    background-color: #03234b;
+}
+
+#button-1 {
+    align-self: center;
+    margin-right: 10px;
+}
+
+.properties {
+    background-color: #03234b; 
+    color: white; 
+}
+
+#led {
+    width: 50px;
+}
+
+#button-1 .knobs:before{content: '';position: absolute;top: 4px;left: 4px;width: 20px;height: 10px;color: #fff;font-size: 10px;font-weight: bold;text-align: center;line-height: 1;padding: 9px 4px;background-color: #fff;border-radius: 50%;transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.35), 0 10px 10px -5px rgba(0, 0, 0, 0.20);}
+#button-1 .checkbox:checked + .knobs:before{content: '';left: 32px;background-color: #fff;}
+#button-1 .checkbox:checked ~ .layer{background-color: #3cb4e6;}
+#button-1 .knobs, #button-1 .knobs:before, #button-1 .layer{transition: 0.3s ease all;}
+.knobs, .layer{position: absolute;top: 0;right: 0;bottom: 0;left: 0;}
+.button{position: relative;top: 50%;width: 55px;height: 25px;margin: -20px auto 0 auto;overflow: hidden;margin: 0;}
+.button.r, .button.r .layer{border-radius: 100px;}
+.checkbox{position: relative;width: 100%;height: 100%;padding: 0;margin: 0;opacity: 0;cursor: pointer;z-index: 3;}
+.knobs{z-index: 2;}
+.layer{width: 100%;background-color: #d3d3d3;transition: 0.3s ease all;z-index: 1;}
