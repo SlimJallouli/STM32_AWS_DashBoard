@@ -50,6 +50,7 @@
 .subsection {
     width: 50%;
     padding: 5%;
+    text-align: center;
 }
 
 .table {
@@ -58,7 +59,8 @@
 }
 
 #qr {
-    width: 100%;
+    width: 50%;
+    padding-top: 15%;
 }
 
 .propertyName {

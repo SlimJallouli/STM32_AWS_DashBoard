@@ -16,11 +16,13 @@ const SECRET_KEY = "4iENJIKJjTVyqOOjJ8QYHTw9PKOjamiYvnY0s7Xg";
 let client = {};
 
 let subscribed = false;
+let isConnected = false;
 let env_sensor_topic  = "/"+DeviceID+"/env_sensor_data";
 let motion_sensor_topic = "/"+DeviceID+"/motion_sensor_data";
 let shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
 let presense_topic = "$aws/events/presence/";
 
+let message_count = 0;
 var _clientToken = Math.random() * 1000000;
 
 //gets MQTT client
@@ -161,6 +163,7 @@ function subscribe()
     unsubscribe();
 
     DeviceID = document.getElementById("idDeviceID").value ;
+    document.getElementById("deviceID").innerHTML = DeviceID;
 
     env_sensor_topic  = DeviceID+"/env_sensor_data";
     motion_sensor_topic = DeviceID+"/motion_sensor_data";
@@ -184,6 +187,7 @@ function subscribe()
 function init()
 {
     DeviceID = document.getElementById("idDeviceID").value ;
+    document.getElementById("deviceID").innerHTML = DeviceID;
 
     HideShowElement('idButtonSubscribe', false);
 
@@ -201,9 +205,19 @@ function init()
         // document.getElementById("idTitle").innerHTML = 'Disconnected from AWS';
         HideShowElement("idButtonSubscribe", false);
     }
+
+    setInterval(onConnectionStatusTimer, 5000);
 }
 
-function updateConnectionStatus(isConnected) {
+function onConnectionStatusTimer() {
+    if (message_count == 0) {
+        isConnected = false;
+        updateConnectionStatus();
+    }
+    message_count = 0;
+}
+
+function updateConnectionStatus() {
     let status = document.getElementById("idConnectionStatus");
     if (isConnected) {
         status.innerHTML = 'Device connected';
@@ -223,9 +237,12 @@ function processMessage(message)
     console.log("Topic: " + message.destinationName);
     console.log(info);
 
+    message_count += 1;
+
     if((message.destinationName == motion_sensor_topic) || (message.destinationName == env_sensor_topic))
     {
-        updateConnectionStatus(true);
+        isConnected = true;
+        updateConnectionStatus();
     }
     
 	
@@ -264,7 +281,8 @@ function processMessage(message)
             if(info.clientId.includes(DeviceID))
             {
                 document.getElementById("idConnectionStatus").innerHTML = DeviceID+ " " + info.eventType;
-                updateConnectionStatus(info.state.eventType == "connected")
+                isConnected = info.state.eventType == "connected"
+                updateConnectionStatus()
             }
         }
         catch
