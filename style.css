@@ -21,14 +21,16 @@
     background-color: #3cb4e6;
 }
 
+#title {
+    color: white;
+}
+
 .status {
     display: block;
-    padding-top: 25px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+
     color: red;
-    width: 40em;
+    font-size: large;
+    font-weight: bolder;
 }
 
 .status-connected {
@@ -39,19 +41,28 @@
     color: red;
 }
 
-.charts {
+.section {
     display: flex;
     flex-direction: row;
 }
 
-.chart {
+
+.subsection {
     width: 50%;
     padding: 5%;
 }
 
 .table {
-    width: 50%;
-    margin: auto;
+    margin-top: 6%;
+    margin-left: 6%;
+}
+
+#qr {
+    width: 100%;
+}
+
+.propertyName {
+    color: #03234b;
 }
 
 .thead-dark {
@@ -66,6 +77,7 @@
 .properties {
     background-color: #03234b; 
     color: white; 
+    font-size: larger;
 }
 
 #ledImage {

@@ -14,6 +14,7 @@
             <a class="navbar-brand" href="#">
                 <img src="/assets/st logo.svg" width="100">
             </a>
+            <h1 id="title">STM32U5 AWS Dashboard</h1>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#subscribe" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -27,41 +28,66 @@
             </div>
           </nav>
         
-
-        <div class="status">
-            <p id="idConnectionStatus">Device Disconnected</p>
-        </div>
         
-        <div class="charts">
-            <div class="chart">
+        <div class="section">
+            <div class="subsection">
                 <canvas id="envData"></canvas>
             </div>
-            <div class="chart">
+            <div class="subsection">
                 <canvas id="motionData"></canvas>
             </div>
         </div>
 
-        <table class="table">
-            <thead class="properties">
-              <tr>
-                <th scope="col">Property</th>
-                <th scope="col">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">LED</th>
-                <td class="led"><div class="button r center" id="button-1">
-                    <input type="checkbox" class="checkbox" id="ledCheckbox" onclick=toggleLED()>
-                    <div class="knobs"></div>
-                    <div class="layer"></div>
-                </div>
-                <div >
-                    <img id="ledImage" src="/assets/led_off.svg">
-                </div></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="section">
+            <table class="table subsection">
+                <thead class="properties">
+                  <tr>
+                    <th scope="col">Property</th>
+                    <th scope="col">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="propertyName" scope="row">Device Name</th>
+                        <td>
+                            <p>STM32U5</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="propertyName" scope="row">Device ID</th>
+                        <td>
+                            <p id="deviceID">G210900084</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="propertyName" scope="row">Connection Status</th>
+                        <td>
+                            <div class="status">
+                                <p id="idConnectionStatus">Device Disconnected</p>
+                            </div>
+                        </td>
+                    </tr>
+                  <tr>
+                    <th class="propertyName" scope="row">LED</th>
+                    <td class="led"><div class="button r center" id="button-1">
+                        <input type="checkbox" class="checkbox" id="ledCheckbox" onclick=toggleLED()>
+                        <div class="knobs"></div>
+                        <div class="layer"></div>
+                    </div>
+                    <div >
+                        <img id="ledImage" src="/assets/led_off.svg">
+                    </div></td>
+                  </tr>
+                
+                </tbody>
+              </table>
+
+              <div class="subsection">
+                <img src="/assets/article-qr.png" id="qr"/>
+              </div>
+        </div>
+
+        
 
         
         <!-- Chart.js-->
