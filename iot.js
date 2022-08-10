@@ -9,10 +9,11 @@ const REGION = "us-west-2";
 // example: xzy-ats.iot.your-region.amazonaws.com
 const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-west-2.amazonaws.com";
 // your AWS access key ID
-const KEY_ID = "AKIAQC3VOUAR3CXSI7Y3";
+let KEY_ID = "";
 // your AWS secret access key
-const SECRET_KEY = "4iENJIKJjTVyqOOjJ8QYHTw9PKOjamiYvnY0s7Xg";
-	
+let SECRET_KEY = "";
+
+
 let client = {};
 
 let subscribed = false;
@@ -33,7 +34,7 @@ function initClient()
 
     // publish method added to simplify messaging
     _client.publish = function(topic, payload)
-	{
+      {
         let payloadText = JSON.stringify(payload);
         let message = new Paho.MQTT.Message(payloadText);
         message.destinationName = topic;
@@ -58,7 +59,7 @@ function getEndpoint()
     //const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-east-2.amazonaws.com";
 
     // your AWS access key ID
-    //const KEY_ID = 
+    //const KEY_ID =
 
     // your AWS secret access key
     //const SECRET_KEY = "";
@@ -71,11 +72,11 @@ function getEndpoint()
     const scope = `${ymd}/${REGION}/iotdevicegateway/aws4_request`;
     const ks = encodeURIComponent(`${KEY_ID}/${scope}`);
 
-	let qs = `X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=${ks}&X-Amz-Date=${fdt}&X-Amz-SignedHeaders=host`;
+      let qs = `X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=${ks}&X-Amz-Date=${fdt}&X-Amz-SignedHeaders=host`;
 
-	const req = `GET\n/mqtt\n${qs}\nhost:${IOT_ENDPOINT}\n\nhost\n${p4.sha256('')}`;
+      const req = `GET\n/mqtt\n${qs}\nhost:${IOT_ENDPOINT}\n\nhost\n${p4.sha256('')}`;
 
-	qs += '&X-Amz-Signature=' + p4.sign(p4.getSignatureKey( SECRET_KEY, ymd, REGION, 'iotdevicegateway'), `AWS4-HMAC-SHA256\n${fdt}\n${scope}\n${p4.sha256(req)}`);
+      qs += '&X-Amz-Signature=' + p4.sign(p4.getSignatureKey( SECRET_KEY, ymd, REGION, 'iotdevicegateway'), `AWS4-HMAC-SHA256\n${fdt}\n${scope}\n${p4.sha256(req)}`);
     return `wss://${IOT_ENDPOINT}/mqtt?${qs}`;
 }
 
@@ -104,9 +105,8 @@ p4.getSignatureKey = function(key, dateStamp, regionName, serviceName)
 function connected()
 {
   console.log("connected to AWS");
-//   document.getElementById("idTitle").innerHTML = 'Connected to AWS';
+  //document.getElementById("idTitle").innerHTML = 'Connected to AWS';
 
-  HideShowElement("idButtonSubscribe", true);
 }
 
 function getClient(success)
@@ -116,7 +116,7 @@ function getClient(success)
     const _client = initClient();
 
     const connectOptions =
-	{
+      {
       useSSL: true,
       timeout: 3,
       mqttVersion: 4,
@@ -128,15 +128,15 @@ function getClient(success)
     return _client;
 }
 
-function HideShowElement(elementID, HideShow) 
+function HideShowElement(elementID, HideShow)
 {
     var x = document.getElementById(elementID);
 
     if(HideShow == true)
     {
         x.style.display = "block";
-    } 
-    else 
+    }
+    else
     {
       x.style.display = "none";
     }
@@ -148,7 +148,7 @@ function unsubscribe()
     if(subscribed == true)
     {
         client.unsubscribe(env_sensor_topic);
-	    client.unsubscribe(motion_sensor_topic);
+          client.unsubscribe(motion_sensor_topic);
         client.unsubscribe(shadow_topic+"/accepted");
         client.unsubscribe(presense_topic+"#");
 
@@ -162,7 +162,7 @@ function subscribe()
 {
     unsubscribe();
 
-    DeviceID = document.getElementById("idDeviceID").value ;
+    //DeviceID = document.getElementById("idDeviceID").value ;
     document.getElementById("deviceID").innerHTML = DeviceID;
 
     env_sensor_topic  = DeviceID+"/env_sensor_data";
@@ -171,7 +171,7 @@ function subscribe()
     //presense_topic = presense_topic+"#"
 
     client.subscribe(env_sensor_topic);
-	client.subscribe(motion_sensor_topic);
+      client.subscribe(motion_sensor_topic);
     client.subscribe(shadow_topic+"/accepted");
     client.subscribe(presense_topic+"#");
 
@@ -186,21 +186,27 @@ function subscribe()
 
 function init()
 {
-    DeviceID = document.getElementById("idDeviceID").value ;
-    document.getElementById("deviceID").innerHTML = DeviceID;
 
-    HideShowElement('idButtonSubscribe', false);
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    DeviceID   = urlParams.get('DeviceID');
+    KEY_ID     = urlParams.get('KEY_ID');
+    SECRET_KEY = urlParams.get('SECRET_KEY');
+
+    //DeviceID = document.getElementById("idDeviceID").value ;
+    document.getElementById("deviceID").innerHTML = DeviceID;
 
     client = getClient(() => {
         subscribe();
-	});
-	
+      });
+      
     client.onMessageArrived = processMessage;
-	
-	client.onConnection = connected();
+      
+      client.onConnection = connected();
 
     client.onConnectionLost = function(e)
-	{
+      {
         console.log(e);
         // document.getElementById("idTitle").innerHTML = 'Disconnected from AWS';
         HideShowElement("idButtonSubscribe", false);
@@ -233,7 +239,7 @@ function updateConnectionStatus() {
 function processMessage(message)
 {
     let info = JSON.parse(message.payloadString);
-	
+      
     console.log("Topic: " + message.destinationName);
     console.log(info);
 
@@ -244,8 +250,8 @@ function processMessage(message)
         isConnected = true;
         updateConnectionStatus();
     }
-    
-	
+   
+      
     if(message.destinationName == shadow_topic+"/accepted")
     {
         try
@@ -298,17 +304,17 @@ function SendMessage(message)
     _clientToken++;
 
     const publishData =
-	{
-	  state:{
-	    desired:{
+      {
+        state:{
+          desired:{
           powerOn: message,
         }
-	  },
+        },
 
       clientToken: _clientToken.toFixed()
 
-	};
-		
+      };
+            
     client.publish(shadow_topic, publishData);
 }
 
