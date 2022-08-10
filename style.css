@@ -10,17 +10,6 @@
     color: white;
 }
 
-.btn-outline-success {
-    color: white;
-    border-color: white;
-}
-
-.btn-outline-success:hover {
-    color: white;
-    border-color: #3cb4e6;
-    background-color: #3cb4e6;
-}
-
 #title {
     color: white;
 }
