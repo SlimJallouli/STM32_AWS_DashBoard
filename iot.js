@@ -197,6 +197,17 @@ function init()
     //DeviceID = document.getElementById("idDeviceID").value ;
     document.getElementById("deviceID").innerHTML = DeviceID;
 
+    if (DeviceID != "" && KEY_ID != "" && SECRET_KEY != "") {
+        // Generate QR Code
+        var qrc = new QRCode(document.getElementById("qrcode"), {
+            text: window.location.href,
+            colorDark: "#03234b",
+            colorLight: "#ffffff",
+            width: 400,
+            height: 400
+        });
+    }
+
     client = getClient(() => {
         subscribe();
       });
