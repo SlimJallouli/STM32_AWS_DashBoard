@@ -52,6 +52,19 @@
     padding-top: 15%;
 }
 
+@media only screen and (max-width: 800px) {
+    /* For mobile phones: */
+    .section {
+        display: block;
+    }
+    .subsection {
+      width: 100%;
+    }
+    #title {
+        text-align: center;
+    }
+  }
+
 .propertyName {
     color: #03234b;
 }
