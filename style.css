@@ -63,6 +63,14 @@
     #title {
         text-align: center;
     }
+    .table {
+        width: 100%;
+        margin: 0%;
+    }
+
+    #qr {
+        width: 80%;
+    }
   }
 
 .propertyName {
