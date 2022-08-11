@@ -170,6 +170,7 @@ function subscribe()
     client.subscribe(env_sensor_topic);
       client.subscribe(motion_sensor_topic);
     client.subscribe(shadow_topic+"/accepted");
+    client.subscribe(shadow_topic + "/delta")
 
     subscribed = true;
 
@@ -277,6 +278,17 @@ function processMessage(message)
         {
             //Do nothing
         }
+    } else if (message.destinationName == shadow_topic + "/delta") {
+        if(info.state.powerOn == '1')
+            {
+                document.getElementById("ledImage").src="/assets/led_on.svg";
+                document.getElementById("ledCheckbox").checked = true;
+            }
+            else
+            {
+                document.getElementById("ledImage").src="/assets/led_off.svg";
+                document.getElementById("ledCheckbox").checked = false;
+            }
     }
     else if(message.destinationName == env_sensor_topic)
     {
@@ -286,7 +298,7 @@ function processMessage(message)
     {
         add_motion_sensor_data(info.acceleration_mG.x, info.acceleration_mG.y,info.acceleration_mG.z);
     }
-    else if(message.destinationName.includes(presense_topic) && message.destinationName.includes(DeviceID))
+    else if (message.destinationName.includes(DeviceID))
     {
         try
         {
