@@ -21,6 +21,7 @@ let isConnected = false;
 let env_sensor_topic  = "/"+DeviceID+"/env_sensor_data";
 let motion_sensor_topic = "/"+DeviceID+"/motion_sensor_data";
 let shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
+let shadow_get_topic = "$aws/things/" + DeviceID + "/shadow/get";
 
 let message_count = 0;
 var _clientToken = Math.random() * 1000000;
@@ -149,6 +150,7 @@ function unsubscribe()
         client.unsubscribe(env_sensor_topic);
           client.unsubscribe(motion_sensor_topic);
         client.unsubscribe(shadow_topic+"/accepted");
+        client.unsubscribe(shadow_get_topic+"/accepted");
 
 
         subscribed = false;
@@ -166,11 +168,13 @@ function subscribe()
     env_sensor_topic  = DeviceID+"/env_sensor_data";
     motion_sensor_topic = DeviceID+"/motion_sensor_data";
     shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
+    shadow_get_topic = "$aws/things/" + DeviceID + "/shadow/get";
 
     client.subscribe(env_sensor_topic);
       client.subscribe(motion_sensor_topic);
     client.subscribe(shadow_topic+"/accepted");
-    client.subscribe(shadow_topic + "/delta")
+    client.subscribe(shadow_topic + "/delta");
+    client.subscribe(shadow_get_topic + "/accepted");
 
     subscribed = true;
 
@@ -178,6 +182,7 @@ function subscribe()
     console.log(env_sensor_topic);
     console.log(motion_sensor_topic);
     console.log(shadow_topic);
+    console.log(shadow_get_topic);
 }
 
 function init()
@@ -255,6 +260,9 @@ function processMessage(message)
     if((message.destinationName == motion_sensor_topic) || (message.destinationName == env_sensor_topic))
     {
         isConnected = true;
+        if (message_count == 1) {
+            client.publish(shadow_get_topic, {});
+        }
         updateConnectionStatus();
     }
    
@@ -289,6 +297,17 @@ function processMessage(message)
                 document.getElementById("ledImage").src="/assets/led_off.svg";
                 document.getElementById("ledCheckbox").checked = false;
             }
+    } else if (message.destinationName == shadow_get_topic + "/accepted") {
+        if (info.state.reported.powerOn == '1')
+        {
+            document.getElementById("ledImage").src="/assets/led_on.svg";
+            document.getElementById("ledCheckbox").checked = true;
+        }
+        else
+        {
+            document.getElementById("ledImage").src="/assets/led_off.svg";
+            document.getElementById("ledCheckbox").checked = false;
+        }
     }
     else if(message.destinationName == env_sensor_topic)
     {
