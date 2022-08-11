@@ -21,7 +21,6 @@ let isConnected = false;
 let env_sensor_topic  = "/"+DeviceID+"/env_sensor_data";
 let motion_sensor_topic = "/"+DeviceID+"/motion_sensor_data";
 let shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
-let presense_topic = "$aws/events/presence/";
 
 let message_count = 0;
 var _clientToken = Math.random() * 1000000;
@@ -150,7 +149,6 @@ function unsubscribe()
         client.unsubscribe(env_sensor_topic);
           client.unsubscribe(motion_sensor_topic);
         client.unsubscribe(shadow_topic+"/accepted");
-        client.unsubscribe(presense_topic+"#");
 
 
         subscribed = false;
@@ -168,12 +166,10 @@ function subscribe()
     env_sensor_topic  = DeviceID+"/env_sensor_data";
     motion_sensor_topic = DeviceID+"/motion_sensor_data";
     shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
-    //presense_topic = presense_topic+"#"
 
     client.subscribe(env_sensor_topic);
       client.subscribe(motion_sensor_topic);
     client.subscribe(shadow_topic+"/accepted");
-    client.subscribe(presense_topic+"#");
 
     subscribed = true;
 
@@ -181,7 +177,6 @@ function subscribe()
     console.log(env_sensor_topic);
     console.log(motion_sensor_topic);
     console.log(shadow_topic);
-    console.log(presense_topic+"#");
 }
 
 function init()
