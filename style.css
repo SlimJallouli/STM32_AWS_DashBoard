@@ -42,16 +42,27 @@
     text-align: center;
 }
 
+.subsection > p {
+    color: #03234b;
+    font-size: larger;
+    font-weight: bolder;
+}
+
 .table {
     margin-top: 6%;
     margin-left: 6%;
 }
 
 #qrcode {
-    width: 100%;
-    padding-top: 5%;
-    padding-left: 5%;
+    
 }
+
+#qrcode > img {
+    width: 100%;
+    padding: 10%;
+    /* border: 5px solid red; */
+}
+
 
 @media only screen and (max-width: 800px) {
     /* For mobile phones: */
@@ -67,11 +78,6 @@
     .table {
         width: 100%;
         margin: 0%;
-    }
-
-    #qrcode {
-        margin-left: 10%;
-        margin-right: 10%;
     }
   }
 

@@ -151,3 +151,17 @@ function toggleLED() {
     }
 }
 
+function turnLED(on) 
+{
+    if(on)
+    {
+        document.getElementById("ledImage").src="/assets/led_on.svg";
+        document.getElementById("ledCheckbox").checked = true;
+    }
+    else
+    {
+        document.getElementById("ledImage").src="/assets/led_off.svg";
+        document.getElementById("ledCheckbox").checked = false;
+    }
+}
+
