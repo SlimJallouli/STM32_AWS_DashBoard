@@ -1,7 +1,7 @@
 const envDiv = document.getElementById('envData').getContext("2d");
 const motionDiv = document.getElementById('motionData').getContext("2d");
 
-const MAX_INDEX = 10;
+const MAX_INDEX = 20;
 
 let delayed;
 
