@@ -24,6 +24,7 @@ let shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
 let shadow_get_topic = "$aws/things/" + DeviceID + "/shadow/get";
 
 let message_count = 0;
+let got_first_shadow = false;
 var _clientToken = Math.random() * 1000000;
 
 //gets MQTT client
@@ -260,8 +261,9 @@ function processMessage(message)
     if((message.destinationName == motion_sensor_topic) || (message.destinationName == env_sensor_topic))
     {
         isConnected = true;
-        if (message_count == 1) {
+        if (!got_first_shadow) {
             client.publish(shadow_get_topic, {});
+            console.log("Yet another shadow get message");
         }
         updateConnectionStatus();
     }
@@ -297,7 +299,7 @@ function processMessage(message)
                 document.getElementById("ledImage").src="/assets/led_off.svg";
                 document.getElementById("ledCheckbox").checked = false;
             }
-    } else if (message.destinationName == shadow_get_topic + "/accepted") {
+    } else if (message.destinationName == shadow_get_topic + "/accepted" && !got_first_shadow) {
         if (info.state.reported.powerOn == '1')
         {
             document.getElementById("ledImage").src="/assets/led_on.svg";
@@ -308,6 +310,7 @@ function processMessage(message)
             document.getElementById("ledImage").src="/assets/led_off.svg";
             document.getElementById("ledCheckbox").checked = false;
         }
+        got_first_shadow = true;
     }
     else if(message.destinationName == env_sensor_topic)
     {
