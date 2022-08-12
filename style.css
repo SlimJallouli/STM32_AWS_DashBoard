@@ -2,12 +2,9 @@
     background-color: #03234b;
 }
 
-.navbar-brand {
-    color: white;
-}
-
-.navbar-toggler-icon {
-    color: white;
+.navbar {
+    height: 5%;
+    padding: 0;
 }
 
 #title {
@@ -44,7 +41,7 @@
     height: 30%;
     padding-left: 5%;
     padding-right: 5%;
-    padding-top: 5%;
+    padding-top: 1%;
     text-align: center;
 }
 
@@ -59,12 +56,16 @@
     margin-left: 6%;
 }
 
+.qrsection {
+    padding-top: 2%;
+    width: 40%;
+}
 
 #qrcode > img {
-    width: 100%;
+    width: 96%;
     padding-left: 15%;
     padding-right: 15%;
-    padding-bottom: 3%;
+    padding-bottom: 1%;
     /* border: 5px solid red; */
 }
 
