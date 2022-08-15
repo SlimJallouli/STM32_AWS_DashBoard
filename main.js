@@ -71,6 +71,13 @@ const env_config = {
                 return delay;
             },
         },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Temperature and Humidity',
+                color: '#03234b',
+            }
+        },
         radius: 5,
         hitRadius: 30,
         hoverRadius: 12,
@@ -93,6 +100,13 @@ const motion_config = {
                 }
                 return delay;
             },
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Acceleration (mG)',
+                color: '#03234b',
+            }
         },
         radius: 5,
         hitRadius: 30,
