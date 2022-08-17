@@ -5,9 +5,9 @@
 // The device ID
 let DeviceID = '';
 // example: us-east-1
-const REGION = "us-west-2";
+const REGION = "us-west-1";
 // example: xzy-ats.iot.your-region.amazonaws.com
-const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-west-2.amazonaws.com";
+const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-west-1.amazonaws.com";
 // your AWS access key ID
 let KEY_ID = "";
 // your AWS secret access key
