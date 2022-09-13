@@ -273,7 +273,7 @@ function processMessage(message)
             //Do nothing
         }
     } 
-    else if (message.destinationName == shadow_topic + "/delta") 
+    /*else if (message.destinationName == shadow_topic + "/delta") 
     {
         if(info.state.powerOn == '1')
             {
@@ -285,7 +285,7 @@ function processMessage(message)
                 document.getElementById("ledImage").src="/assets/led_off.svg";
                 document.getElementById("ledCheckbox").checked = false;
             }
-    } 
+    }*/
     else if (message.destinationName == shadow_get_topic + "/accepted" && !got_first_shadow) 
     {
         if (info.state.reported.powerOn == '1')
