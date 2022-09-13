@@ -5,9 +5,9 @@
 // The device ID
 let DeviceID = '';
 // example: us-east-1
-const REGION = "us-west-1";
+const REGION = "";
 // example: xzy-ats.iot.your-region.amazonaws.com
-const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-west-1.amazonaws.com";
+const IOT_ENDPOINT = "";
 // your AWS access key ID
 let KEY_ID = "";
 // your AWS secret access key
@@ -48,23 +48,6 @@ function initClient()
 
 function getEndpoint()
 {
-// WARNING!!! It is not recommended to expose
-// sensitive credential information in code.
-// Consider setting the following AWS values
-// from a secure source.
-
-    // example: us-east-1
-    //const REGION = "us-east-2";
-
-    // example: blahblahblah-ats.iot.your-region.amazonaws.com
-    //const IOT_ENDPOINT = "a1qwhobjtvew8t-ats.iot.us-east-2.amazonaws.com";
-
-    // your AWS access key ID
-    //const KEY_ID =
-
-    // your AWS secret access key
-    //const SECRET_KEY = "";
-
     // date & time
     const dt = (new Date()).toISOString().replace(/[^0-9]/g, "");
     const ymd = dt.slice(0,8);
@@ -106,8 +89,6 @@ p4.getSignatureKey = function(key, dateStamp, regionName, serviceName)
 function connected()
 {
   console.log("connected to AWS");
-  //document.getElementById("idTitle").innerHTML = 'Connected to AWS';
-
 }
 
 function getClient(success)
@@ -149,10 +130,9 @@ function unsubscribe()
     if(subscribed == true)
     {
         client.unsubscribe(env_sensor_topic);
-          client.unsubscribe(motion_sensor_topic);
+        client.unsubscribe(motion_sensor_topic);
         client.unsubscribe(shadow_topic+"/accepted");
         client.unsubscribe(shadow_get_topic+"/accepted");
-
 
         subscribed = false;
     }
@@ -163,7 +143,6 @@ function subscribe()
 {
     unsubscribe();
 
-    //DeviceID = document.getElementById("idDeviceID").value ;
     document.getElementById("deviceID").innerHTML = DeviceID;
 
     env_sensor_topic  = DeviceID+"/env_sensor_data";
@@ -172,7 +151,7 @@ function subscribe()
     shadow_get_topic = "$aws/things/" + DeviceID + "/shadow/get";
 
     client.subscribe(env_sensor_topic);
-      client.subscribe(motion_sensor_topic);
+    client.subscribe(motion_sensor_topic);
     client.subscribe(shadow_topic+"/accepted");
     client.subscribe(shadow_topic + "/delta");
     client.subscribe(shadow_get_topic + "/accepted");
@@ -196,12 +175,16 @@ function init()
     KEY_ID     = urlParams.get('KEY_ID');
     SECRET_KEY = urlParams.get('SECRET_KEY');
 
-    //DeviceID = document.getElementById("idDeviceID").value ;
+    REGION == urlParams.get('REGION');
+    IOT_ENDPOINT == urlParams.get('IOT_ENDPOINT');
+
     document.getElementById("deviceID").innerHTML = DeviceID;
 
-    if (DeviceID != "" && KEY_ID != "" && SECRET_KEY != "") {
+    if (DeviceID != "" && KEY_ID != "" && SECRET_KEY != "") 
+    {
         // Generate QR Code
-        var qrc = new QRCode(document.getElementById("qrcode"), {
+        var qrc = new QRCode(document.getElementById("qrcode"), 
+        {
             text: window.location.href,
             colorDark: "#03234b",
             colorLight: "#ffffff",
@@ -212,17 +195,14 @@ function init()
 
     client = getClient(() => {
         subscribe();
-      });
-      
+    });
+
     client.onMessageArrived = processMessage;
-      
-      client.onConnection = connected();
+    client.onConnection = connected();
 
     client.onConnectionLost = function(e)
-      {
+    {
         console.log(e);
-        // document.getElementById("idTitle").innerHTML = 'Disconnected from AWS';
-        HideShowElement("idButtonSubscribe", false);
     }
 
     setInterval(onConnectionStatusTimer, 5000);
@@ -236,13 +216,18 @@ function onConnectionStatusTimer() {
     message_count = 0;
 }
 
-function updateConnectionStatus() {
+function updateConnectionStatus() 
+{
     let status = document.getElementById("idConnectionStatus");
-    if (isConnected) {
+
+    if (isConnected) 
+    {
         status.innerHTML = 'Device connected';
         status.classList.remove('status-disconnected')
         status.classList.add('status-connected')
-    } else {
+    } 
+    else 
+    {
         status.innerHTML = 'Device disconnected';
         status.classList.remove('status-connected')
         status.classList.add('status-disconnected')
@@ -252,7 +237,7 @@ function updateConnectionStatus() {
 function processMessage(message)
 {
     let info = JSON.parse(message.payloadString);
-      
+
     console.log("Topic: " + message.destinationName);
     console.log(info);
 
@@ -267,8 +252,7 @@ function processMessage(message)
         }
         updateConnectionStatus();
     }
-   
-      
+
     if(message.destinationName == shadow_topic+"/accepted")
     {
         try
@@ -288,7 +272,9 @@ function processMessage(message)
         {
             //Do nothing
         }
-    } else if (message.destinationName == shadow_topic + "/delta") {
+    } 
+    else if (message.destinationName == shadow_topic + "/delta") 
+    {
         if(info.state.powerOn == '1')
             {
                 document.getElementById("ledImage").src="/assets/led_on.svg";
@@ -299,7 +285,9 @@ function processMessage(message)
                 document.getElementById("ledImage").src="/assets/led_off.svg";
                 document.getElementById("ledCheckbox").checked = false;
             }
-    } else if (message.destinationName == shadow_get_topic + "/accepted" && !got_first_shadow) {
+    } 
+    else if (message.destinationName == shadow_get_topic + "/accepted" && !got_first_shadow) 
+    {
         if (info.state.reported.powerOn == '1')
         {
             document.getElementById("ledImage").src="/assets/led_on.svg";
