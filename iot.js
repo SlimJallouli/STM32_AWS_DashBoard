@@ -5,9 +5,9 @@
 // The device ID
 let DeviceID = '';
 // example: us-east-1
-const REGION = "";
+let REGION = "";
 // example: xzy-ats.iot.your-region.amazonaws.com
-const IOT_ENDPOINT = "";
+let IOT_ENDPOINT = "";
 // your AWS access key ID
 let KEY_ID = "";
 // your AWS secret access key
@@ -175,8 +175,8 @@ function init()
     KEY_ID     = urlParams.get('KEY_ID');
     SECRET_KEY = urlParams.get('SECRET_KEY');
 
-    REGION == urlParams.get('REGION');
-    IOT_ENDPOINT == urlParams.get('IOT_ENDPOINT');
+    REGION = urlParams.get('REGION');
+    IOT_ENDPOINT = urlParams.get('IOT_ENDPOINT');
 
     document.getElementById("deviceID").innerHTML = DeviceID;
 
