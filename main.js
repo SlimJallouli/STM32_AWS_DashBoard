@@ -161,7 +161,7 @@ function toggleLED() {
     if (ledCheckbox.checked) {
         SendMessage("1")
     } else {
-        SendMessage("2")
+        SendMessage("0")
     }
 }
 
