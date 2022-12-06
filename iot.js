@@ -171,22 +171,21 @@ function init()
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
-    DeviceID   = urlParams.get('DeviceID');
-    KEY_ID     = urlParams.get('KEY_ID');
-    SECRET_KEY = urlParams.get('SECRET_KEY');
-
-    REGION = urlParams.get('REGION');
-    IOT_ENDPOINT = urlParams.get('IOT_ENDPOINT');
+    DeviceID     = urlParams.get('DeviceID');
+    KEY_ID       = urlParams.get('KEY_ID');
+    //SECRET_KEY   = urlParams.get('SECRET_KEY');
+    //REGION       = urlParams.get('REGION');
+    //IOT_ENDPOINT = urlParams.get('IOT_ENDPOINT');
 
     //DeviceID = 'stm32u5-6eaa042038373317';
-    KEY_ID = 'AKIAQC3VOUAR3D6XKDXG';
+    //KEY_ID = 'AKIAQC3VOUAR3D6XKDXG';
     SECRET_KEY = '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';
     REGION = 'us-west-1';
     IOT_ENDPOINT = 'a1qwhobjtvew8t-ats.iot.us-west-1.amazonaws.com';
 
 
     console.log("DeviceID    : " + DeviceID);
-    //console.log("KEY_ID      : " + KEY_ID);
+    console.log("KEY_ID      : " + KEY_ID);
     //console.log("SECRET_KEY  : " + SECRET_KEY);
     //console.log("REGION      : " + REGION);
     //console.log("IOT_ENDPOINT: " + IOT_ENDPOINT);
