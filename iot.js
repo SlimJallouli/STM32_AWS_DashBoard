@@ -179,17 +179,17 @@ function init()
     IOT_ENDPOINT = urlParams.get('IOT_ENDPOINT');
 
     //DeviceID = 'stm32u5-6eaa042038373317';
-    //KEY_ID = 'AKIAQC3VOUAR3D6XKDXG';
-    //SECRET_KEY = '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';
-    //REGION = 'us-west-1';
-    //IOT_ENDPOINT = 'a1qwhobjtvew8t-ats.iot.us-west-1.amazonaws.com';
+    KEY_ID = 'AKIAQC3VOUAR3D6XKDXG';
+    SECRET_KEY = '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';
+    REGION = 'us-west-1';
+    IOT_ENDPOINT = 'a1qwhobjtvew8t-ats.iot.us-west-1.amazonaws.com';
 
 
     console.log("DeviceID    : " + DeviceID);
-    console.log("KEY_ID      : " + KEY_ID);
-    console.log("SECRET_KEY  : " + SECRET_KEY);
-    console.log("REGION      : " + REGION);
-    console.log("IOT_ENDPOINT: " + IOT_ENDPOINT);
+    //console.log("KEY_ID      : " + KEY_ID);
+    //console.log("SECRET_KEY  : " + SECRET_KEY);
+    //console.log("REGION      : " + REGION);
+    //console.log("IOT_ENDPOINT: " + IOT_ENDPOINT);
 
     document.getElementById("deviceID").innerHTML = DeviceID;
 
