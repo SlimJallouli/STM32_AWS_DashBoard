@@ -178,6 +178,19 @@ function init()
     REGION = urlParams.get('REGION');
     IOT_ENDPOINT = urlParams.get('IOT_ENDPOINT');
 
+    //DeviceID = 'stm32u5-6eaa042038373317';
+    //KEY_ID = 'AKIAQC3VOUAR3D6XKDXG';
+    //SECRET_KEY = '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';
+    //REGION = 'us-west-1';
+    //IOT_ENDPOINT = 'a1qwhobjtvew8t-ats.iot.us-west-1.amazonaws.com';
+
+
+    console.log("DeviceID    : " + DeviceID);
+    console.log("KEY_ID      : " + KEY_ID);
+    console.log("SECRET_KEY  : " + SECRET_KEY);
+    console.log("REGION      : " + REGION);
+    console.log("IOT_ENDPOINT: " + IOT_ENDPOINT);
+
     document.getElementById("deviceID").innerHTML = DeviceID;
 
     if (DeviceID != "" && KEY_ID != "" && SECRET_KEY != "") 
@@ -259,12 +272,12 @@ function processMessage(message)
         {
            if(info.state.reported.powerOn == '1')
             {
-                document.getElementById("ledImage").src="/assets/led_on.svg";
+                document.getElementById("ledImage").src="./assets/led_on.svg";
                 document.getElementById("ledCheckbox").checked = true;
             }
             else
             {
-                document.getElementById("ledImage").src="/assets/led_off.svg";
+                document.getElementById("ledImage").src="./assets/led_off.svg";
                 document.getElementById("ledCheckbox").checked = false;
             }
         }
@@ -290,12 +303,12 @@ function processMessage(message)
     {
         if (info.state.reported.powerOn == '1')
         {
-            document.getElementById("ledImage").src="/assets/led_on.svg";
+            document.getElementById("ledImage").src="./assets/led_on.svg";
             document.getElementById("ledCheckbox").checked = true;
         }
         else
         {
-            document.getElementById("ledImage").src="/assets/led_off.svg";
+            document.getElementById("ledImage").src="./assets/led_off.svg";
             document.getElementById("ledCheckbox").checked = false;
         }
         got_first_shadow = true;
