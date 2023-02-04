@@ -16,12 +16,12 @@ let SECRET_KEY = "";
 
 let client = {};
 
-let subscribed = false;
+let subscribed  = false;
 let isConnected = false;
-let env_sensor_topic  = "/"+DeviceID+"/env_sensor_data";
-let motion_sensor_topic = "/"+DeviceID+"/motion_sensor_data";
-let shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
-let shadow_get_topic = "$aws/things/" + DeviceID + "/shadow/get";
+let env_sensor_topic    = "/" + DeviceID + "/env_sensor_data";
+let motion_sensor_topic = "/" + DeviceID + "/motion_sensor_data";
+let shadow_topic        = "$aws/things/" + DeviceID + "/shadow/update";
+let shadow_get_topic    = "$aws/things/" + DeviceID + "/shadow/get";
 
 let message_count = 0;
 let got_first_shadow = false;
@@ -145,24 +145,25 @@ function subscribe()
 
     document.getElementById("deviceID").innerHTML = DeviceID;
 
-    env_sensor_topic  = DeviceID+"/env_sensor_data";
-    motion_sensor_topic = DeviceID+"/motion_sensor_data";
-    shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
-    shadow_get_topic = "$aws/things/" + DeviceID + "/shadow/get";
+    env_sensor_topic = DeviceID + "/env_sensor_data";
+    client.subscribe(env_sensor_topic   );
+    console.log("subscribed to: " + env_sensor_topic);
 
-    client.subscribe(env_sensor_topic);
+    motion_sensor_topic = DeviceID + "/motion_sensor_data";
     client.subscribe(motion_sensor_topic);
-    client.subscribe(shadow_topic+"/accepted");
-    client.subscribe(shadow_topic + "/delta");
+    console.log("subscribed to: " + motion_sensor_topic);
+
+    shadow_topic        = "$aws/things/" + DeviceID + "/shadow/update";
+    client.subscribe(shadow_topic + "/accepted");
+    client.subscribe(shadow_topic + "/delta"   );
+    console.log("subscribed to: " + shadow_topic     + "/accepted");
+    console.log("subscribed to: " + shadow_topic     + "/delta"   );
+
+    shadow_get_topic    = "$aws/things/" + DeviceID + "/shadow/get";
     client.subscribe(shadow_get_topic + "/accepted");
-
+    console.log("subscribed to: " + shadow_get_topic + "/accepted");
+    
     subscribed = true;
-
-    console.log("subscribed to:");
-    console.log(env_sensor_topic);
-    console.log(motion_sensor_topic);
-    console.log(shadow_topic);
-    console.log(shadow_get_topic);
 }
 
 function init()
@@ -175,10 +176,6 @@ function init()
     REGION       = urlParams.get('REGION');
     IOT_ENDPOINT = urlParams.get('IOT_ENDPOINT');
     DeviceID     = urlParams.get('DeviceID');
-    
-    //SECRET_KEY = 'gdEjKYkiysuPSPfnrmjN7IbtsLYdRQ+sVtR1DyTf';
-    //REGION = 'us-west-1';
-    //IOT_ENDPOINT = 'a1qwhobjtvew8t-ats.iot.us-west-1.amazonaws.com';
 
     console.log("KEY_ID      : " + KEY_ID);
     console.log("SECRET_KEY  : " + SECRET_KEY);
@@ -216,7 +213,8 @@ function init()
     setInterval(onConnectionStatusTimer, 5000);
 }
 
-function onConnectionStatusTimer() {
+function onConnectionStatusTimer() 
+{
     if (message_count == 0) {
         isConnected = false;
         updateConnectionStatus();
