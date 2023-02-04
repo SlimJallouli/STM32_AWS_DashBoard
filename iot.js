@@ -35,7 +35,7 @@ function initClient()
 
     // publish method added to simplify messaging
     _client.publish = function(topic, payload)
-      {
+    {
         let payloadText = JSON.stringify(payload);
         let message = new Paho.MQTT.Message(payloadText);
         message.destinationName = topic;
@@ -56,11 +56,11 @@ function getEndpoint()
     const scope = `${ymd}/${REGION}/iotdevicegateway/aws4_request`;
     const ks = encodeURIComponent(`${KEY_ID}/${scope}`);
 
-      let qs = `X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=${ks}&X-Amz-Date=${fdt}&X-Amz-SignedHeaders=host`;
+    let qs = `X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=${ks}&X-Amz-Date=${fdt}&X-Amz-SignedHeaders=host`;
 
-      const req = `GET\n/mqtt\n${qs}\nhost:${IOT_ENDPOINT}\n\nhost\n${p4.sha256('')}`;
+    const req = `GET\n/mqtt\n${qs}\nhost:${IOT_ENDPOINT}\n\nhost\n${p4.sha256('')}`;
 
-      qs += '&X-Amz-Signature=' + p4.sign(p4.getSignatureKey( SECRET_KEY, ymd, REGION, 'iotdevicegateway'), `AWS4-HMAC-SHA256\n${fdt}\n${scope}\n${p4.sha256(req)}`);
+    qs += '&X-Amz-Signature=' + p4.sign(p4.getSignatureKey( SECRET_KEY, ymd, REGION, 'iotdevicegateway'), `AWS4-HMAC-SHA256\n${fdt}\n${scope}\n${p4.sha256(req)}`);
     return `wss://${IOT_ENDPOINT}/mqtt?${qs}`;
 }
 
@@ -98,7 +98,7 @@ function getClient(success)
     const _client = initClient();
 
     const connectOptions =
-      {
+    {
       useSSL: true,
       timeout: 3,
       mqttVersion: 4,
@@ -130,7 +130,7 @@ function unsubscribe()
     if(subscribed == true)
     {
         client.unsubscribe(env_sensor_topic);
-        client.unsubscribe(motion_sensor_topic);
+        client.unsubscribe(motion_sensor_topic);
         client.unsubscribe(shadow_topic+"/accepted");
         client.unsubscribe(shadow_get_topic+"/accepted");
 
@@ -167,27 +167,24 @@ function subscribe()
 
 function init()
 {
-
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
-    DeviceID     = urlParams.get('DeviceID');
     KEY_ID       = urlParams.get('KEY_ID');
-    //SECRET_KEY   = urlParams.get('SECRET_KEY');
-    //REGION       = urlParams.get('REGION');
-    //IOT_ENDPOINT = urlParams.get('IOT_ENDPOINT');
+    SECRET_KEY   = urlParams.get('SECRET_KEY');
+    REGION       = urlParams.get('REGION');
+    IOT_ENDPOINT = urlParams.get('IOT_ENDPOINT');
+    DeviceID     = urlParams.get('DeviceID');
+    
+    //SECRET_KEY = 'gdEjKYkiysuPSPfnrmjN7IbtsLYdRQ+sVtR1DyTf';
+    //REGION = 'us-west-1';
+    //IOT_ENDPOINT = 'a1qwhobjtvew8t-ats.iot.us-west-1.amazonaws.com';
 
-
-    SECRET_KEY = 'gdEjKYkiysuPSPfnrmjN7IbtsLYdRQ+sVtR1DyTf';
-    REGION = 'us-west-1';
-    IOT_ENDPOINT = 'a1qwhobjtvew8t-ats.iot.us-west-1.amazonaws.com';
-
-
-    console.log("DeviceID    : " + DeviceID);
     console.log("KEY_ID      : " + KEY_ID);
-    //console.log("SECRET_KEY  : " + SECRET_KEY);
-    //console.log("REGION      : " + REGION);
-    //console.log("IOT_ENDPOINT: " + IOT_ENDPOINT);
+    console.log("SECRET_KEY  : " + SECRET_KEY);
+    console.log("REGION      : " + REGION);
+    console.log("IOT_ENDPOINT: " + IOT_ENDPOINT);
+    console.log("DeviceID    : " + DeviceID);
 
     document.getElementById("deviceID").innerHTML = DeviceID;
 
@@ -343,17 +340,16 @@ function SendMessage(message)
     _clientToken++;
 
     const publishData =
-      {
-        state:{
-          desired:{
+    {
+      state:{
+      desired:{
           powerOn: message,
         }
-        },
+      },
 
       clientToken: _clientToken.toFixed()
+    };
 
-      };
-            
     client.publish(shadow_topic, publishData);
 }
 
