@@ -16,12 +16,12 @@ let SECRET_KEY = "";
 
 let client = {};
 
-let subscribed  = false;
+let subscribed = false;
 let isConnected = false;
-let env_sensor_topic    = "/" + DeviceID + "/env_sensor_data";
-let motion_sensor_topic = "/" + DeviceID + "/motion_sensor_data";
-let shadow_topic        = "$aws/things/" + DeviceID + "/shadow/update";
-let shadow_get_topic    = "$aws/things/" + DeviceID + "/shadow/get";
+let env_sensor_topic  = "/"+DeviceID+"/env_sensor_data";
+let motion_sensor_topic = "/"+DeviceID+"/motion_sensor_data";
+let shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
+let shadow_get_topic = "$aws/things/" + DeviceID + "/shadow/get";
 
 let message_count = 0;
 let got_first_shadow = false;
@@ -35,7 +35,7 @@ function initClient()
 
     // publish method added to simplify messaging
     _client.publish = function(topic, payload)
-    {
+      {
         let payloadText = JSON.stringify(payload);
         let message = new Paho.MQTT.Message(payloadText);
         message.destinationName = topic;
@@ -56,11 +56,11 @@ function getEndpoint()
     const scope = `${ymd}/${REGION}/iotdevicegateway/aws4_request`;
     const ks = encodeURIComponent(`${KEY_ID}/${scope}`);
 
-    let qs = `X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=${ks}&X-Amz-Date=${fdt}&X-Amz-SignedHeaders=host`;
+      let qs = `X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=${ks}&X-Amz-Date=${fdt}&X-Amz-SignedHeaders=host`;
 
-    const req = `GET\n/mqtt\n${qs}\nhost:${IOT_ENDPOINT}\n\nhost\n${p4.sha256('')}`;
+      const req = `GET\n/mqtt\n${qs}\nhost:${IOT_ENDPOINT}\n\nhost\n${p4.sha256('')}`;
 
-    qs += '&X-Amz-Signature=' + p4.sign(p4.getSignatureKey( SECRET_KEY, ymd, REGION, 'iotdevicegateway'), `AWS4-HMAC-SHA256\n${fdt}\n${scope}\n${p4.sha256(req)}`);
+      qs += '&X-Amz-Signature=' + p4.sign(p4.getSignatureKey( SECRET_KEY, ymd, REGION, 'iotdevicegateway'), `AWS4-HMAC-SHA256\n${fdt}\n${scope}\n${p4.sha256(req)}`);
     return `wss://${IOT_ENDPOINT}/mqtt?${qs}`;
 }
 
@@ -98,7 +98,7 @@ function getClient(success)
     const _client = initClient();
 
     const connectOptions =
-    {
+      {
       useSSL: true,
       timeout: 3,
       mqttVersion: 4,
@@ -130,7 +130,7 @@ function unsubscribe()
     if(subscribed == true)
     {
         client.unsubscribe(env_sensor_topic);
-        client.unsubscribe(motion_sensor_topic);
+        client.unsubscribe(motion_sensor_topic);
         client.unsubscribe(shadow_topic+"/accepted");
         client.unsubscribe(shadow_get_topic+"/accepted");
 
@@ -145,43 +145,38 @@ function subscribe()
 
     document.getElementById("deviceID").innerHTML = DeviceID;
 
-    env_sensor_topic = DeviceID + "/env_sensor_data";
-    client.subscribe(env_sensor_topic   );
-    console.log("subscribed to: " + env_sensor_topic);
+    env_sensor_topic  = DeviceID+"/env_sensor_data";
+    motion_sensor_topic = DeviceID+"/motion_sensor_data";
+    shadow_topic = "$aws/things/"+DeviceID+"/shadow/update";
+    shadow_get_topic = "$aws/things/" + DeviceID + "/shadow/get";
 
-    motion_sensor_topic = DeviceID + "/motion_sensor_data";
+    client.subscribe(env_sensor_topic);
     client.subscribe(motion_sensor_topic);
-    console.log("subscribed to: " + motion_sensor_topic);
-
-    shadow_topic        = "$aws/things/" + DeviceID + "/shadow/update";
-    client.subscribe(shadow_topic + "/accepted");
-    client.subscribe(shadow_topic + "/delta"   );
-    console.log("subscribed to: " + shadow_topic     + "/accepted");
-    console.log("subscribed to: " + shadow_topic     + "/delta"   );
-
-    shadow_get_topic    = "$aws/things/" + DeviceID + "/shadow/get";
+    client.subscribe(shadow_topic+"/accepted");
+    client.subscribe(shadow_topic + "/delta");
     client.subscribe(shadow_get_topic + "/accepted");
-    console.log("subscribed to: " + shadow_get_topic + "/accepted");
-    
+
     subscribed = true;
+
+    console.log("subscribed to:");
+    console.log(env_sensor_topic);
+    console.log(motion_sensor_topic);
+    console.log(shadow_topic);
+    console.log(shadow_get_topic);
 }
 
 function init()
 {
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
-    KEY_ID       = urlParams.get('KEY_ID');
-    SECRET_KEY   = urlParams.get('SECRET_KEY');
-    REGION       = urlParams.get('REGION');
-    IOT_ENDPOINT = urlParams.get('IOT_ENDPOINT');
-    DeviceID     = urlParams.get('DeviceID');
+    DeviceID   = urlParams.get('DeviceID');
+    KEY_ID     = urlParams.get('KEY_ID');
+    SECRET_KEY = urlParams.get('SECRET_KEY');
 
-    console.log("KEY_ID      : " + KEY_ID);
-    console.log("SECRET_KEY  : " + SECRET_KEY);
-    console.log("REGION      : " + REGION);
-    console.log("IOT_ENDPOINT: " + IOT_ENDPOINT);
-    console.log("DeviceID    : " + DeviceID);
+    REGION = urlParams.get('REGION');
+    IOT_ENDPOINT = urlParams.get('IOT_ENDPOINT');
 
     document.getElementById("deviceID").innerHTML = DeviceID;
 
@@ -213,8 +208,7 @@ function init()
     setInterval(onConnectionStatusTimer, 5000);
 }
 
-function onConnectionStatusTimer() 
-{
+function onConnectionStatusTimer() {
     if (message_count == 0) {
         isConnected = false;
         updateConnectionStatus();
@@ -265,12 +259,12 @@ function processMessage(message)
         {
            if(info.state.reported.powerOn == '1')
             {
-                document.getElementById("ledImage").src="./assets/led_on.svg";
+                document.getElementById("ledImage").src="/assets/led_on.svg";
                 document.getElementById("ledCheckbox").checked = true;
             }
             else
             {
-                document.getElementById("ledImage").src="./assets/led_off.svg";
+                document.getElementById("ledImage").src="/assets/led_off.svg";
                 document.getElementById("ledCheckbox").checked = false;
             }
         }
@@ -296,12 +290,12 @@ function processMessage(message)
     {
         if (info.state.reported.powerOn == '1')
         {
-            document.getElementById("ledImage").src="./assets/led_on.svg";
+            document.getElementById("ledImage").src="/assets/led_on.svg";
             document.getElementById("ledCheckbox").checked = true;
         }
         else
         {
-            document.getElementById("ledImage").src="./assets/led_off.svg";
+            document.getElementById("ledImage").src="/assets/led_off.svg";
             document.getElementById("ledCheckbox").checked = false;
         }
         got_first_shadow = true;
@@ -338,16 +332,17 @@ function SendMessage(message)
     _clientToken++;
 
     const publishData =
-    {
-      state:{
-      desired:{
+      {
+        state:{
+          desired:{
           powerOn: message,
         }
-      },
+        },
 
       clientToken: _clientToken.toFixed()
-    };
 
+      };
+            
     client.publish(shadow_topic, publishData);
 }
 
