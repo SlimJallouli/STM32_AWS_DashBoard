@@ -205,7 +205,7 @@ function init()
         console.log(e);
     }
 
-    setInterval(onConnectionStatusTimer, 5000);
+    setInterval(onConnectionStatusTimer, 70000);
 }
 
 function onConnectionStatusTimer() {
