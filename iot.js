@@ -257,22 +257,8 @@ function processMessage(message)
     {
        try
        {
-        if(info.state.reported.Board != '')
-        {
             document.getElementById("boardID").innerHTML = info.state.reported.Board;
-        }
-       }
-       catch
-       {
-            //Do nothing
-       }
-
-       try
-       {
-        if(info.state.reported.Connectivity != '')
-        {
             document.getElementById("ConnectivityID").innerHTML = info.state.reported.Connectivity;
-        }
        }
        catch
        {
@@ -312,6 +298,16 @@ function processMessage(message)
     }*/
     else if (message.destinationName == shadow_get_topic + "/accepted" && !got_first_shadow) 
     {
+        try
+       {
+            document.getElementById("boardID").innerHTML = info.state.reported.Board;
+            document.getElementById("ConnectivityID").innerHTML = info.state.reported.Connectivity;
+       }
+       catch
+       {
+            //Do nothing
+       }
+       
         if (info.state.reported.powerOn == '1')
         {
             document.getElementById("ledImage").src="/assets/led_on.svg";
