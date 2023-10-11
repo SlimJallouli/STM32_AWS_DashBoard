@@ -255,6 +255,30 @@ function processMessage(message)
 
     if(message.destinationName == shadow_topic+"/accepted")
     {
+       try
+       {
+        if(info.state.reported.Board != '')
+        {
+            document.getElementById("boardID").innerHTML = info.state.reported.Board;
+        }
+       }
+       catch
+       {
+            //Do nothing
+       }
+
+       try
+       {
+        if(info.state.reported.Connectivity != '')
+        {
+            document.getElementById("ConnectivityID").innerHTML = info.state.reported.Connectivity;
+        }
+       }
+       catch
+       {
+            //Do nothing
+       }
+
         try
         {
            if(info.state.reported.powerOn == '1')
